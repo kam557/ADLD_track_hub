@@ -2,8 +2,6 @@ browser position chr5:122476418-127643937
 
 track name="ADLD Variants" description="ADLD Variants (hg38)" visibility=2 itemRgb="On"  
 
-chr5        127204606            127485761            ADLD_dup_1				0              +              0              0              0,0,255
-
 chr5        126736375            126939807            ADLD_dup_2				0              +              0              0              0,0,255
 
 chr5        126742343            126932074            ADLD_dup_3				0              +              0              0              0,0,255
@@ -83,3 +81,5 @@ chr5        126750808            126903760            ADLD_dup_28				0          
 chr5        126676886            126896451            ADLD_dup_29				0              +              0              0              0,0,255
  
 chr5        126656590            126676280            LMNB1_Silencer_Element			0              +              0              0              0,0,0
+
+chr5        127204606            127485761            ADLD_dup_1				 0              +              0              0              0,0,255
