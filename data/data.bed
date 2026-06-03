@@ -2,6 +2,8 @@ browser position chr5:122476418-127643937
 
 track name="ADLD Variants" description="ADLD Variants (hg38)" visibility=2 itemRgb="On"  
 
+chr5        127204606            127485761            ADLD_dup_1				0              +              0              0              0,0,255
+
 chr5        126736375            126939807            ADLD_dup_2				0              +              0              0              0,0,255
 
 chr5        126742343            126932074            ADLD_dup_3				0              +              0              0              0,0,255
