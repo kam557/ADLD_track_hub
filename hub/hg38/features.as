@@ -14,4 +14,5 @@ table features
     lstring    jsonPublication;    "Key-value pairs displayed as detail table"
 	lstring    jsonClinical;    "Key-value pairs displayed as detail table"
 	lstring    jsonMolecular;    "Key-value pairs displayed as detail table"
+	lstring    jsonEvidence;    "Key-value pairs displayed as detail table"
 )
