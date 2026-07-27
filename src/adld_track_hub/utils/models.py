@@ -108,9 +108,9 @@ class BedTableExtension:
             data = {
                 k: (
                     "NA" if v in [None, ""]
-                    else v.replace("\r\n", "<br>")
-                            .replace("\r", "<br>")
-                            .replace("\n", "<br>")
+                    else v.replace("\r\n", " • ")
+                            .replace("\r", " • ")
+                            .replace("\n", " • ")
                     if isinstance(v, str)
                     else v
                 )
