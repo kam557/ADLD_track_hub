@@ -104,7 +104,19 @@ class BedTableExtension:
         for model in self.extensions:
             data = model.model_dump(by_alias = True)
             # have any null/empty string values convert to "NA"
-            data = {k: ("NA" if v in [None, ""] else v) for k, v in data.items()}
+            # convert Excel line breaks into HTML line breaks
+            data = {
+                k: (
+                    "NA" if v in [None, ""]
+                    else v.replace("\r\n", "<br>")
+                            .replace("\r", "<br>")
+                            .replace("\n", "<br>")
+                    if isinstance(v, str)
+                    else v
+                )
+                for k, v in data.items()
+            }
+            # remove Item name and use it as the join key
             # pop the name to use it as the merged key
             name = data.pop("Item name")
             # below line would filter our the empty data
