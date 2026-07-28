@@ -137,11 +137,6 @@ class BedTableExtension:
         if description == None or description == "":
             description = self.meta.table_name
 
-        if self.meta.column_name == "evidence":
-            return (
-                f'lstring    {self.meta.column_name);
-                              f'"{description}"'
-            )
         return f"lstring    json{self.meta.column_name};    \"{description}\""
 
     def build(self) -> RowBuildReturn:
@@ -198,10 +193,6 @@ class BedTable:
                 on="name",
                 how="left"
             )
-
-            # Evidence Summary is an oridinary field, so it is not added to details DynamicTable
-            if extension_results.track_db is not None:
-                trackDb.append(extension_result.track_db)
             # collect the variables to insert into the AutoSQL schema
             autoSQL.append(extension_results.auto_sql)
         # provide filler value for empty values
