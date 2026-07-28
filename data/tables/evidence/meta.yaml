@@ -1,4 +1,4 @@
 table_name:  "Evidence Summary"
-column_name: "Evidence"
+column_name: "evidenceSummary"
 order: 1
-description: "Summary of supporting evidence"
+description: "Narrative summary of published evidence"
