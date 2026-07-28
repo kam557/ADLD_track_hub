@@ -122,7 +122,7 @@ class BedTableExtension:
             # below line would filter our the empty data
             # data = {k: v for k, v in data.items() if v is not None and v != ""}
             # Column name remains as the column name instead of create a table
-            rows.append({"name": name, self.meta.column_name: json.dump(data),
+            rows.append({"name": name, self.meta.column_name: json.dumps(data),
                         })
         return pl.DataFrame(rows)
 
