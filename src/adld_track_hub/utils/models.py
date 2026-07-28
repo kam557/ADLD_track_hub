@@ -119,6 +119,13 @@ class BedTableExtension:
             # remove Item name and use it as the join key
             # pop the name to use it as the merged key
             name = data.pop("Item name")
+
+            # Evidence summary is stored as ordinary text rather than JSON
+            if self.meta.column_name == "evidence":
+                value = data.get("Summary", "NA")
+            else:
+                value = json.dumps(data)
+            
             # below line would filter our the empty data
             # data = {k: v for k, v in data.items() if v is not None and v != ""}
             rows.append({"name": name, self.meta.column_name: json.dumps(data)})
