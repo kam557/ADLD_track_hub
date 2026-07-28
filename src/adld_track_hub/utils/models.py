@@ -122,7 +122,7 @@ class BedTableExtension:
             # below line would filter our the empty data
             # data = {k: v for k, v in data.items() if v is not None and v != ""}
             # Column name remains as the column name instead of create a table
-            rows.append({"name": name, self.meta.column_name: json.dump(data),
+            rows.append({"name": name, self.meta.column_name: json.dumps(data),
                         })
         return pl.DataFrame(rows)
 
@@ -198,7 +198,7 @@ class BedTable:
 
             # Evidence Summary is an oridinary field, so it is not added to details DynamicTable
             if extension_results.track_db is not None:
-                trackDb.append(extension_result.track_db)
+                trackDb.append(extension_results.track_db)
             # collect the variables to insert into the AutoSQL schema
             autoSQL.append(extension_results.auto_sql)
         # provide filler value for empty values
