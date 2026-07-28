@@ -11,8 +11,8 @@ table features
     uint    thickStart; "Thick start"
     uint    thickEnd;   "Thick end"
     uint    reserved;   "ItemRgb"
-    lstring    jsonPublication;    "Key-value pairs displayed as detail table"
-	lstring    jsonClinical;    "Key-value pairs displayed as detail table"
+    lstring    jsonPublication;    "Publication"
+	lstring    jsonClinical;    "Clinical Features"
 	lstring    jsonEvidence;    "Narrative summary of published evidence"
-	lstring    jsonMolecular;    "Key-value pairs displayed as detail table"
+	lstring    jsonMolecular;    "Molecular Features"
 )
