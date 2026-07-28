@@ -198,7 +198,7 @@ class BedTable:
 
             # Evidence Summary is an oridinary field, so it is not added to details DynamicTable
             if extension_results.track_db is not None:
-                trackDb.append(extension_result.track_db)
+                trackDb.append(extension_results.track_db)
             # collect the variables to insert into the AutoSQL schema
             autoSQL.append(extension_results.auto_sql)
         # provide filler value for empty values
