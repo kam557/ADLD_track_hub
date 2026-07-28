@@ -139,11 +139,6 @@ class BedTableExtension:
         if description == None or description == "":
             description = self.meta.table_name
 
-        if self.meta.column_name == "evidence":
-            return (
-                f'lstring    {self.meta.column_name);
-                              f'"{description}"'
-            )
         return f"lstring    json{self.meta.column_name};    \"{description}\""
 
     def build(self) -> RowBuildReturn:
