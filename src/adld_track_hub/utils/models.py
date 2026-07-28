@@ -120,6 +120,12 @@ class BedTableExtension:
             # pop the name to use it as the merged key
             name = data.pop("Item name")
 
+            # Evidence summary is stored as ordinary text rather than JSON
+            if self.meta.column_name == "evidence":
+                value = data.get("Summary", "NA")
+            else:
+                value = json.dumps(data)
+            
             # below line would filter our the empty data
             # data = {k: v for k, v in data.items() if v is not None and v != ""}
             # Column name remains as the column name instead of create a table
@@ -128,16 +134,24 @@ class BedTableExtension:
         return pl.DataFrame(rows)
 
     # Gets the string to append to the trackDb.txt file.
-    def get_track_db_append(self) -> str:
+    def get_track_db_append(self) -> str | None:
+        if self.meta.column_name == "evidence":
+            return None
+            
         return f"json{self.meta.column_name}|{self.meta.table_name}"
 
     # Gets the string to append to the features.as file.
     def get_auto_sql_append(self) -> str:
         description = self.meta.description
         if description == None or description == "":
-            description = "Key-value pairs displayed as detail table"
+            description = self.meta.table_name
 
-        return ( f"lstring    json{self.meta.column_name};    \"{description}\"" )
+        if self.meta.column_name == "evidence":
+            return (
+                f'lstring    {self.meta.column_name);
+                              f'"{description}"'
+            )
+        return f"lstring    json{self.meta.column_name};    \"{description}\""
 
     def build(self) -> RowBuildReturn:
         return RowBuildReturn(
@@ -193,6 +207,10 @@ class BedTable:
                 on="name",
                 how="left"
             )
+
+            # Evidence Summary is an oridinary field, so it is not added to details DynamicTable
+            if extension_results.track_db is not None:
+                trackDb.append(extension_result.track_db)
             # collect the variables to insert into the AutoSQL schema
             autoSQL.append(extension_results.auto_sql)
         # provide filler value for empty values
