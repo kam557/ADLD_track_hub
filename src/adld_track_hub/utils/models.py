@@ -64,11 +64,11 @@ class TableMetaData(BaseModel):
 # Small class containing the results needed to extend the trackDb.txt
 # and AutoSQL files.
 class RowBuildReturn:
-    track_db: str
+    track_db: str | None
     auto_sql: str
     data: pl.DataFrame
 
-    def __init__(self, track_db: str, auto_sql: str, data: pl.DataFrame):
+    def __init__(self, track_db: str | None, auto_sql: str, data: pl.DataFrame):
         self.track_db = track_db
         self.auto_sql = auto_sql
         self.data = data
@@ -134,14 +134,23 @@ class BedTableExtension:
         return pl.DataFrame(rows)
 
     # Gets the string to append to the trackDb.txt file.
-    def get_track_db_append(self) -> str:
+    def get_track_db_append(self) -> str | None:
+        if self.meta.column_name == "evidence":
+            return None
+            
         return f"json{self.meta.column_name}|{self.meta.table_name}"
 
     # Gets the string to append to the features.as file.
     def get_auto_sql_append(self) -> str:
         description = self.meta.description
         if description == None or description == "":
-            description = "Key-value pairs displayed as detail table"
+            description = self.meta.table_name
+
+        if self.meta.column_name == "evidence":
+            return (
+                f'lstring    {self.meta.column_name);
+                              f'"{description}"'
+            )
         return f"lstring    json{self.meta.column_name};    \"{description}\""
 
     def build(self) -> RowBuildReturn:
@@ -191,14 +200,17 @@ class BedTable:
         bed: pl.DataFrame = self.data
         for extension in self.extensions:
             extension_results = extension.build()
+            
             # join the bed extensions to the main bed file
             bed = bed.join(
                 extension_results.data,
                 on="name",
                 how="left"
             )
-            # collect the trackDb append line for the tables
-            trackDb.append(extension_results.track_db)
+
+            # Evidence Summary is an oridinary field, so it is not added to details DynamicTable
+            if extension_results.track_db is not None:
+                trackDb.append(extension_result.track_db)
             # collect the variables to insert into the AutoSQL schema
             autoSQL.append(extension_results.auto_sql)
         # provide filler value for empty values
