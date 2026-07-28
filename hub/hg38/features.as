@@ -13,6 +13,6 @@ table features
     uint    reserved;   "ItemRgb"
     lstring    jsonPublication;    "Key-value pairs displayed as detail table"
 	lstring    jsonClinical;    "Key-value pairs displayed as detail table"
-	lstring    Evidence;    "Narrative summary of published evidence"
+	lstring    jsonEvidence;    "Narrative summary of published evidence"
 	lstring    jsonMolecular;    "Key-value pairs displayed as detail table"
 )

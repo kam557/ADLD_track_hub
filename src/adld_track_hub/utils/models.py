@@ -135,9 +135,9 @@ class BedTableExtension:
     def get_auto_sql_append(self) -> str:
         description = self.meta.description
         if description == None or description == "":
-            description = self.meta.table_name
+            description = "Key-value pairs displayed as detail table"
 
-        return f"lstring    json{self.meta.column_name};    \"{description}\""
+        return ( f"lstring    json{self.meta.column_name};    \"{description}\"" )
 
     def build(self) -> RowBuildReturn:
         return RowBuildReturn(
