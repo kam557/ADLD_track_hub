@@ -128,7 +128,9 @@ class BedTableExtension:
             
             # below line would filter our the empty data
             # data = {k: v for k, v in data.items() if v is not None and v != ""}
-            rows.append({"name": name, self.meta.column_name: json.dumps(data)})
+            # Column name remains as the column name instead of create a table
+            rows.append({"name": name, self.meta.column_name: value,
+                        })
         return pl.DataFrame(rows)
 
     # Gets the string to append to the trackDb.txt file.
