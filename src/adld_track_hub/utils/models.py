@@ -252,6 +252,10 @@ class BedTable:
         self.extensions = sorted(self.extensions)
         # NOTE: for now, reversing the list because UCSC loads backwards
         self.extensions.reverse()
+        # Keep Publication at the bottom
+        self.extensions.sort(
+            key=lambda extension: extension.meta.column_name == "Publication"
+        )
 
     def build(self):
         trackDb: List[str] = []
