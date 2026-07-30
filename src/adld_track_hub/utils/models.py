@@ -127,10 +127,7 @@ class BedTableExtension:
         return pl.DataFrame(rows)
 
     # Gets the string to append to the trackDb.txt file.
-    def get_track_db_append(self) -> str | None:
-        if self.meta.column_name == "evidence":
-            return None
-            
+    def get_track_db_append(self) -> str:
         return f"json{self.meta.column_name}|{self.meta.table_name}"
 
     # Gets the string to append to the features.as file.
