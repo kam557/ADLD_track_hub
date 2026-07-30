@@ -11,7 +11,7 @@ table features
     uint    thickStart; "Thick start"
     uint    thickEnd;   "Thick end"
     uint    reserved;   "ItemRgb"
-    lstring    jsonPublication;    "Publication"
+    lstring    Publication;    "Publication"
 	lstring    jsonClinical;    "Clinical Features"
 	lstring    jsonEvidence;    "Narrative summary of published evidence"
 	lstring    jsonMolecular;    "Molecular Features"
