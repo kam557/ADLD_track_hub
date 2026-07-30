@@ -151,7 +151,7 @@ class BedTableExtension:
     # Converts the RowData list into a polars DataFrame.
     def as_dataframe(self) -> pl.DataFrame:
         if self.meta.column_name == "Publication":
-            return self.publication_dataframe()
+            return f"{self.meta.column_name}|{self.meta.table_name}"
 
         rows = []
 
@@ -188,10 +188,7 @@ class BedTableExtension:
         return pl.DataFrame(rows)
 
     # Gets the string to append to the trackDb.txt file.
-    def get_track_db_append(self) -> str:
-        if self.meta.column_name == "Publication":
-            return f"{self.meta.column_name}|{self.meta.table_name}"
-
+    def get_track_db_append(self):
         return f"json{self.meta.column_name}|{self.meta.table_name}"
 
     # Gets the string to append to the features.as file.
