@@ -121,9 +121,9 @@ class BedTableExtension:
                     .replace("\n", " ")
                     .replace("|", "/")
                     .replace(";", ",")
-                if isinstance(value, str)
-                else str(value)
-                for value in values
+                    if isinstance(value, str)
+                    else str(value)
+                    for value in values
             ]
 
             encoded_row = "|".join(cleaned_values)
@@ -138,16 +138,18 @@ class BedTableExtension:
             + ";".join(publication_rows)
         )
 
-        rows.append({
-            "name": name,
-            self.meta.column_name: encoded_table,
-        })
+        rows.append(
+            {
+                "name": name,
+                self.meta.column_name: encoded_table,
+            }
+        )
 
     return pl.DataFrame(rows)
 
-    def as_dataframe(self) -> pl.DataFrame:
-        if self.meta.column_name == "Publication":
-            return self.publication_dataframe()
+def as_dataframe(self) -> pl.DataFrame:
+     if self.meta.column_name == "Publication":
+        return self.publication_dataframe()
 
         rows = []
 
