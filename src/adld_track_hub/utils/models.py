@@ -187,14 +187,7 @@ class BedTableExtension:
        if self.meta.column_name == "Publication":
            return f"{self.meta.column_name}|{self.meta.table_name}"
 
-        return f"json{self.meta.column_name}|{self.meta.table_name}"
-
-
-
-
-
-
-    
+       return f"json{self.meta.column_name}|{self.meta.table_name}"
 
     # Gets the string to append to the features.as file.
     def get_auto_sql_append(self) -> str:
