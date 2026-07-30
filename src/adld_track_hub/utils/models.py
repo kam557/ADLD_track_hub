@@ -116,99 +116,107 @@ class BedTableExtension:
             values = [publication, pmid, cases]
 
             cleaned_values = [
-                value.replace("\r\n", " ")
+                (
+                    value.replace("\r\n", " ")
                     .replace("\r", " ")
                     .replace("\n", " ")
                     .replace("|", "/")
                     .replace(";", ",")
                     if isinstance(value, str)
                     else str(value)
-                    for value in values
+                )
+                for value in values
             ]
 
             encoded_row = "|".join(cleaned_values)
-
             grouped.setdefault(name, []).append(encoded_row)
 
-    rows = []
+        rows = []
 
-    for name, publication_rows in grouped.items():
-        encoded_table = (
-            "Publication|PMID|Cases reported;"
-            + ";".join(publication_rows)
-        )
+        for name, publication_rows in grouped.items():
+            encoded_table = (
+                "Publication|PMID|Cases reported;"
+                + ";".join(publication_rows)
+            )
 
-        rows.append(
-            {
-                "name": name,
-                self.meta.column_name: encoded_table,
-            }
-        )
+            rows.append(
+                {
+                    "name": name,
+                    self.meta.column_name: encoded_table,
+                }
+            )
 
-    return pl.DataFrame(rows)
+        return pl.DataFrame(rows)
 
     # Converts the RowData list into a polars DataFrame.
-
     def as_dataframe(self) -> pl.DataFrame:
         if self.meta.column_name == "Publication":
             return self.publication_dataframe()
 
-    rows = []
+        rows = []
 
         for model in self.extensions:
-            data = model.model_dump(by_alias = True)
-            # have any null/empty string values convert to "NA"
-            # convert Excel line breaks into HTML line breaks
+            data = model.model_dump(by_alias=True)
+
+            # Convert null/empty values to "NA".
+            # Convert Excel line breaks into bullet separators.
             data = {
                 k: (
-                    "NA" if v in [None, ""]
-                    else v.replace("\r\n", " • ")
-                            .replace("\r", " • ")
-                            .replace("\n", " • ")
-                    if isinstance(v, str)
-                    else v
+                    "NA"
+                    if v in [None, ""]
+                    else (
+                        v.replace("\r\n", " • ")
+                        .replace("\r", " • ")
+                        .replace("\n", " • ")
+                        if isinstance(v, str)
+                        else v
+                    )
                 )
                 for k, v in data.items()
             }
-            # remove Item name and use it as the join key
-            # pop the name to use it as the merged key
+
+            # Remove Item name and use it as the join key.
             name = data.pop("Item name")
-            # below line would filter our the empty data
-            # data = {k: v for k, v in data.items() if v is not None and v != ""}
-            # Column name remains as the column name instead of create a table
-            rows.append({"name": name, self.meta.column_name: json.dumps(data),
-                        })
+
+            rows.append(
+                {
+                    "name": name,
+                    self.meta.column_name: json.dumps(data),
+                }
+            )
+
         return pl.DataFrame(rows)
 
     # Gets the string to append to the trackDb.txt file.
     def get_track_db_append(self) -> str:
-       if self.meta.column_name == "Publication":
-           return f"{self.meta.column_name}|{self.meta.table_name}"
+        if self.meta.column_name == "Publication":
+            return f"{self.meta.column_name}|{self.meta.table_name}"
 
-       return f"json{self.meta.column_name}|{self.meta.table_name}"
+        return f"json{self.meta.column_name}|{self.meta.table_name}"
 
     # Gets the string to append to the features.as file.
     def get_auto_sql_append(self) -> str:
         description = self.meta.description
-
-        #This is another update
 
         if description is None or description == "":
             description = self.meta.table_name
 
         if self.meta.column_name == "Publication":
             return (
-                f'lstring    json{self.meta.column_name};'
-                f'    "{description}" '
+                f"lstring    {self.meta.column_name};"
+                f'    "{description}"'
             )
-            
 
+        return (
+            f"lstring    json{self.meta.column_name};"
+            f'    "{description}"'
+        )
 
     def build(self) -> RowBuildReturn:
         return RowBuildReturn(
-            track_db = self.get_track_db_append(),
-            auto_sql = self.get_auto_sql_append(),
-            data = self.as_dataframe()
+            track_db=self.get_track_db_append(),
+            auto_sql=self.get_auto_sql_append(),
+            data=self.as_dataframe(),
         )
 
 # Contains the original bed file data and the bed file extensions.
