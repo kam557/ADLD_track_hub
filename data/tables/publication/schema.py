@@ -4,7 +4,7 @@ from typing import final
 
 @final
 class Schema(RowData):
-    pubmed: str | None = Field(alias = "Pubmed link")
-    authors: str | None = Field(alias = "Authors")
-    aka: str | None = Field(alias = "AKA")
+    pub: str | None = Field(alias = "Publication")
+    pmid: str | None = Field(alias = "PMID")
+    cases: str | None = Field(alias = "Cases reported")
     pedigree: str | None = Field(alias = "Pedigree")
