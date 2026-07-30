@@ -189,10 +189,19 @@ class BedTableExtension:
     # Gets the string to append to the features.as file.
     def get_auto_sql_append(self) -> str:
         description = self.meta.description
-        if description == None or description == "":
+
+        #This is another update
+
+        if description is None or description == "";
             description = self.meta.table_name
 
-        return f"lstring    json{self.meta.column_name};    \"{description}\""
+        if self.meta.column_name == "Publication":
+            return (
+                f'lstring    json{self.meta.column_name};'
+                f'    "{description}"
+            )
+            
+
 
     def build(self) -> RowBuildReturn:
         return RowBuildReturn(
