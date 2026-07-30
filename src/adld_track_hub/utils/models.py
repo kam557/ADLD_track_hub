@@ -98,6 +98,62 @@ class BedTableExtension:
             return NotImplemented
         return (self.meta.order, self.meta.table_name) == (other.meta.order, other.meta.table_name)
 
+
+
+    # Adding a different UI for the Publications table
+    def publication_dataframe(self) -> pl.DataFrame:
+        grouped: dict[str, list[str]] = {}
+
+        for model in self.extensions:
+            data = model.model_dump(by_alias=True)
+
+            name = data.pop("Item name")
+
+            publication = data.get("Publication") or "NA"
+            pmid = data.get("PMID") or "NA"
+            cases = data.get("Cases reported") or "NA"
+
+            values = [publication, pmid, cases]
+
+            cleaned_values = [
+                value.replace("\r\n", " ")
+                    .replace("\r", " ")
+                    .replace("\n", " ")
+                    .replace("|", "/")
+                    .replace(";", ",")
+                if isinstance(value, str)
+                else str(value)
+                for value in values
+            ]
+
+            encoded_row = "|".join(cleaned_values)
+
+            grouped.setdefault(name, []).append(encoded_row)
+
+    rows = []
+
+    for name, publication_rows in grouped.items():
+        encoded_table = (
+            "Publication|PMID|Cases reported;"
+            + ";".join(publication_rows)
+        )
+
+        rows.append({
+            "name": name,
+            self.meta.column_name: encoded_table,
+        })
+
+    return pl.DataFrame(rows)
+
+    def as_dataframe(self) -> pl.DataFrame:
+        if self.meta.column_name == "Publication":
+            return self.publication_dataframe()
+
+        rows = []
+
+    
+
+    
     # Converts the RowData list into a polars DataFrame.
     def as_dataframe(self) -> pl.DataFrame:
         rows = []
