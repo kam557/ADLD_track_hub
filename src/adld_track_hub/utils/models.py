@@ -147,18 +147,14 @@ class BedTableExtension:
 
     return pl.DataFrame(rows)
 
-def as_dataframe(self) -> pl.DataFrame:
-     if self.meta.column_name == "Publication":
-        return self.publication_dataframe()
-
-        rows = []
-
-    
-
-    
     # Converts the RowData list into a polars DataFrame.
+
     def as_dataframe(self) -> pl.DataFrame:
-        rows = []
+        if self.meta.column_name == "Publication":
+            return self.publication_dataframe()
+
+    rows = []
+
         for model in self.extensions:
             data = model.model_dump(by_alias = True)
             # have any null/empty string values convert to "NA"
