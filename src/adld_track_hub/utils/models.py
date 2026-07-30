@@ -201,7 +201,7 @@ class BedTableExtension:
         if self.meta.column_name == "Publication":
             return (
                 f'lstring    json{self.meta.column_name};'
-                f'    "{description}"
+                f'    "{description}" '
             )
             
 
