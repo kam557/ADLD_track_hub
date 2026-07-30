@@ -195,7 +195,7 @@ class BedTableExtension:
 
         #This is another update
 
-        if description is None or description == "";
+        if description is None or description == "":
             description = self.meta.table_name
 
         if self.meta.column_name == "Publication":
