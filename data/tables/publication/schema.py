@@ -7,4 +7,3 @@ class Schema(RowData):
     pub: str | None = Field(alias = "Publication")
     pmid: str | int | None = Field(alias = "PMID")
     cases: str | None = Field(alias = "Cases reported")
-    pedigree: str | None = Field(alias = "Pedigree")
