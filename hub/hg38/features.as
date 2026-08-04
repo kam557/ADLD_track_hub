@@ -14,5 +14,5 @@ table features
     lstring    jsonClinical;    "Clinical Features"
 	lstring    jsonEvidence;    "Narrative summary of published evidence"
 	lstring    jsonMolecular;    "Molecular Features"
-	lstring    Publication;    "Publication"
+	lstring    jsonPublication;    "Publication"
 )
