@@ -89,3 +89,5 @@ chr5        126656590            126676280            LMNB1_Silencer_Element			0
 chr5        126660205            126660551            Enhancer_Element_A			0              +              0              0              0,0,0
 
 chr5        126008814            126010550            Enhancer_Element_B			0              +              0              0              0,0,0
+
+chr5        126489209            126759255            ADLD_del_6				0              +              0              0              255,0,0
